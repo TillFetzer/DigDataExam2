@@ -88,6 +88,6 @@ dummy_op = DummyOperator(
         dag=dag)
 
 create_local_import_dir >> clear_local_import_dir
-create_local_import_dir >> clear_local_import_dir >> download_cards_method >> hdfs_put_cards
+create_local_import_dir >> clear_local_import_dir >> download_cards_method >> hdfs_put_cards >> create_HiveTable_cards
 
 
