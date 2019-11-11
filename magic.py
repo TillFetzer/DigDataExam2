@@ -24,7 +24,7 @@ args = {
     'owner': 'airflow'
 }
 hiveSQL_create_cards = '''
-CREATE EXTERNAL TABLE IF NOT EXISTS(
+CREATE EXTERNAL TABLE IF NOT EXISTS cards(
    card.name STRING,
    card.multiverseid DECIMAL(4,0),
    card.artist STRING ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
