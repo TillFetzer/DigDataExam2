@@ -82,13 +82,13 @@ clear_local_import_dir = ClearDirectoryOperator(
 download_cards_method  = HttpDownloadOperator(
         task_id='download_cards',
     download_uri='https://api.magicthegathering.io/v1/cards/',
-    save_to='/home/airflow/magic/cards_{{ ds }}.json',
+    save_to='/home/airflow/magic/cards.json',
     dag=dag,
 )
 hdfs_put_cards = HdfsPutFileOperator(
     task_id='upload_cards_to_hdfs',
-    local_file='/home/airflow/magic/cards_{{ ds }}.json',
-    remote_file='/user/hadoop/mtg/raw/cards_{{ ds }}.json',
+    local_file='/home/airflow/magic/cards.json',
+    remote_file='/user/hadoop/mtg/raw/cards.json',
     hdfs_conn_id='hdfs',
     dag=dag,
 )
