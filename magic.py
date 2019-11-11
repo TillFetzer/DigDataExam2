@@ -29,37 +29,8 @@ CREATE EXTERNAL TABLE IF NOT EXISTS cards(
    LOCATION '/user/hadoop/mtg/raw/';
 '''
 
-#hiveQL_create_top_movies_external_table='''
-#CREATE TABLE IF NOT EXISTS top_movies (
-#    name STRING, 
-#    multiverseid DECIMAL(4,0), 
-#    artist STRING
-) STORED AS ORCFILE LOCATION '/user/hadoop/mtg/final/cards_';
-'''
 
-hiveSQL_filter_cards = '''
-SELECT  name STRING,
-        multiverseid DECIMAL(4,0),
-        artist STRING
-FROM   cards
-where 
 
-'''
-
-'''
-CREATE EXTERNAL TABLE IF NOT EXISTS title_basics(
-	tconst STRING,
-	title_type STRING,
-	primary_title STRING,
-	original_title STRING,
-	is_adult DECIMAL(1,0),
-	start_year DECIMAL(4,0),
-	end_year STRING,
-	runtime_minutes INT,
-	genres STRING
-) COMMENT 'IMDb Movies' PARTITIONED BY (partition_year int, partition_month int, partition_day int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t' STORED AS TEXTFILE LOCATION '/user/hadoop/imdb/cards'
-TBLPROPERTIES ('skip.header.line.count'='1');
-'''
 dag = DAG('Magic', default_args=args, description='IMDb Import',
           schedule_interval='56 18 * * *',
           start_date=datetime(2019, 11, 11), catchup=False, max_active_runs=1
