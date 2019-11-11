@@ -25,23 +25,24 @@ args = {
 }
 hiveSQL_create_cards = '''
 CREATE EXTERNAL TABLE IF NOT EXISTS cards(
-  name STRING,
-  multiverseid DECIMAL(4,0),
-  artist STRING ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+  cards struct<name: string, multiverseid: decimal(4,0), artist: string> ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
    LOCATION '/user/hadoop/mtg/raw/cards_';
 '''
 
 hiveQL_create_top_movies_external_table='''
 CREATE TABLE IF NOT EXISTS top_movies (
-    original_title STRING, 
-    start_year DECIMAL(4,0), 
-    average_rating DECIMAL(2,1), 
-    num_votes BIGINT
-) STORED AS ORCFILE LOCATION '/user/hadoop/imdb_final/top_movies';
+    name STRING, 
+    multiverseid DECIMAL(4,0), 
+    artist STRING
+) STORED AS ORCFILE LOCATION '/user/hadoop/mtg/final/cards_';
 '''
 
 hiveSQL_filter_cards = '''
-SELECT 
+SELECT  name STRING,
+        multiverseid DECIMAL(4,0),
+        artist STRING
+FROM   cards
+where 
 
 '''
 
