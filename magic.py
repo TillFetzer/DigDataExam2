@@ -25,7 +25,7 @@ args = {
 }
 hiveSQL_create_cards = '''
 CREATE EXTERNAL TABLE IF NOT EXISTS cards(
-  card struct<name: string, multiverseid: decimal(4,0), artist: string> ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+  cards struct<name: string, multiverseid: decimal(4,0), artist: string> ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
    LOCATION '/user/hadoop/mtg/raw/';
 '''
 
@@ -34,8 +34,8 @@ CREATE EXTERNAL TABLE IF NOT EXISTS cards(
 #    name STRING, 
 #    multiverseid DECIMAL(4,0), 
 #    artist STRING
-#) STORED AS ORCFILE LOCATION '/user/hadoop/mtg/final/cards_';
-#'''
+) STORED AS ORCFILE LOCATION '/user/hadoop/mtg/final/cards_';
+'''
 
 hiveSQL_filter_cards = '''
 SELECT  name STRING,
@@ -82,13 +82,13 @@ clear_local_import_dir = ClearDirectoryOperator(
 download_cards_method  = HttpDownloadOperator(
         task_id='download_cards',
     download_uri='https://api.magicthegathering.io/v1/cards/',
-    save_to='/home/airflow/magic/cards.json',
+    save_to='/home/airflow/magic/cards_{{ ds }}.json',
     dag=dag,
 )
 hdfs_put_cards = HdfsPutFileOperator(
     task_id='upload_cards_to_hdfs',
-    local_file='/home/airflow/magic/cards.json',
-    remote_file='/user/hadoop/mtg/raw/cards.json',
+    local_file='/home/airflow/magic/cards_{{ ds }}.json',
+    remote_file='/user/hadoop/mtg/raw/cards_{{ ds }}.json',
     hdfs_conn_id='hdfs',
     dag=dag,
 )
