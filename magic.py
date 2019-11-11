@@ -26,7 +26,7 @@ args = {
 hiveSQL_create_cards = '''
 CREATE EXTERNAL TABLE IF NOT EXISTS cards(
   cards struct<name: string, multiverseid: decimal(4,0), artist: string> ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
-   LOCATION '/user/hadoop/mtg/raw/cards_';
+   LOCATION '/user/hadoop/mtg/raw/';
 '''
 
 hiveQL_create_top_movies_external_table='''
