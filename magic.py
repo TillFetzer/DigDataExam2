@@ -28,7 +28,21 @@ CREATE EXTERNAL TABLE IF NOT EXISTS cards(
   name STRING,
   multiverseid DECIMAL(4,0),
   artist STRING ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
-   LOCATION '/home/airflow/magic/cards_';
+   LOCATION '/user/hadoop/mtg/raw/cards_';
+'''
+
+hiveQL_create_top_movies_external_table='''
+CREATE TABLE IF NOT EXISTS top_movies (
+    original_title STRING, 
+    start_year DECIMAL(4,0), 
+    average_rating DECIMAL(2,1), 
+    num_votes BIGINT
+) STORED AS ORCFILE LOCATION '/user/hadoop/imdb_final/top_movies';
+'''
+
+hiveSQL_filter_cards = '''
+SELECT 
+
 '''
 
 '''
