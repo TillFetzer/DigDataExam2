@@ -25,9 +25,10 @@ args = {
 }
 hiveSQL_create_cards = '''
 CREATE EXTERNAL TABLE IF NOT EXISTS(
-   name STRING,
-   multiverseid DECIMAL(4,0),
-   artist STRING )
+   card.name STRING,
+   card.multiverseid DECIMAL(4,0),
+   card.artist STRING ) COMMENT 'Magic Cards' ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+   LOCATION '/home/airflow/magic/cards_';
 '''
 
 '''
@@ -41,7 +42,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS title_basics(
 	end_year STRING,
 	runtime_minutes INT,
 	genres STRING
-) COMMENT 'IMDb Movies' PARTITIONED BY (partition_year int, partition_month int, partition_day int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t' STORED AS TEXTFILE LOCATION '/user/hadoop/imdb/title_basics'
+) COMMENT 'IMDb Movies' PARTITIONED BY (partition_year int, partition_month int, partition_day int) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\\t' STORED AS TEXTFILE LOCATION '/user/hadoop/imdb/cards'
 TBLPROPERTIES ('skip.header.line.count'='1');
 '''
 dag = DAG('Magic', default_args=args, description='IMDb Import',
