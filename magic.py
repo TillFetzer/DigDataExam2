@@ -29,13 +29,13 @@ CREATE EXTERNAL TABLE IF NOT EXISTS cards(
    LOCATION '/user/hadoop/mtg/raw/';
 '''
 
-hiveQL_create_top_movies_external_table='''
-CREATE TABLE IF NOT EXISTS top_movies (
-    name STRING, 
-    multiverseid DECIMAL(4,0), 
-    artist STRING
-) STORED AS ORCFILE LOCATION '/user/hadoop/mtg/final/cards_';
-'''
+#hiveQL_create_top_movies_external_table='''
+#CREATE TABLE IF NOT EXISTS top_movies (
+#    name STRING, 
+#    multiverseid DECIMAL(4,0), 
+#    artist STRING
+#) STORED AS ORCFILE LOCATION '/user/hadoop/mtg/final/cards_';
+#'''
 
 hiveSQL_filter_cards = '''
 SELECT  name STRING,
