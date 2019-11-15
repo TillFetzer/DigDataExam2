@@ -1,14 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Title: Simple Example Dag 
-Author: Marcel Mittelstaedt
-Description: 
-Just for educational purposes, not to be used in any productive mannor.
-Downloads IMDb data, puts them into HDFS and creates HiveTable.
-See Lecture Material: https://github.com/marcelmittelstaedt/BigData
-"""
-
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
@@ -19,6 +10,10 @@ from airflow.operators.hdfs_operations import HdfsPutFileOperator, HdfsGetFileOp
 from airflow.operators.filesystem_operations import CreateDirectoryOperator
 from airflow.operators.filesystem_operations import ClearDirectoryOperator
 from airflow.operators.hive_operator import HiveOperator
+from airflow.operators.bash_operator import BashOperator, PythonOperator
+
+import os
+import sys
 
 args = {
     'owner': 'airflow'
@@ -65,11 +60,12 @@ hdfs_put_cards = HdfsPutFileOperator(
     hdfs_conn_id='hdfs',
     dag=dag,
 )
-create_HiveTable_cards = HiveOperator(
-    task_id='create_cards_table',
-    hql=hiveSQL_create_cards,
-    hive_cli_conn_id='beeline',
-    dag=dag)
+create_HiveTable_cards = BashOperator(
+    task_id='spark_python',
+    bash_command='python /home/airflow/airflow/dags/scripts/Spark.py',
+    
+    dag=dag
+)
 
 dummy_op = DummyOperator(
         task_id='dummy', 
